@@ -81,55 +81,59 @@ class Rah_Backup_Sftp
 
     public function sync($event, $step, $data)
     {
-        $sftp = new Net_SFTP(
-            get_pref('rah_backup_sftp_host'),
-            (int) get_pref('rah_backup_sftp_port'),
-            90
-        );
-
-        if ($file = get_pref('rah_backup_sftp_private_key')) {
-            $file = txpath . '/' . $file;
-            $key = new Crypt_RSA();
-
-            if (get_pref('rah_backup_sftp_pass') !== '') {
-                $key->setPassword(get_pref('rah_backup_sftp_pass'));
-            }
-
-            if (!file_exists($file) || !is_file($file) || !is_readable($file)) {
-                throw new Exception('Unable read private RSA key file: '.$file);
-            }
-
-            if ($key->loadKey(file_get_contents($file)) === false) {
-                throw new Exception('Unable decrypt and load RSA key.');
-            }
-
-            $login = $sftp->login(
-                get_pref('rah_backup_sftp_user'),
-                $key
+        try {
+            $sftp = new Net_SFTP(
+                get_pref('rah_backup_sftp_host'),
+                (int) get_pref('rah_backup_sftp_port'),
+                90
             );
-        } else {
-            $login = $sftp->login(
-                get_pref('rah_backup_sftp_user'),
-                get_pref('rah_backup_sftp_pass')
-            );
-        }
 
-        if ($login === false) {
-            throw new Exception('Unable to login to SFTP server.');
-        }
+            if ($file = get_pref('rah_backup_sftp_private_key')) {
+                $file = txpath . '/' . $file;
+                $key = new Crypt_RSA();
 
-		if (get_pref('rah_backup_sftp_path') && $sftp->chdir(get_pref('rah_backup_sftp_path')) === false) {
-            throw new Exception('Unable change remote cwd: '.get_pref('rah_backup_sftp_path'));
-		}
+                if (get_pref('rah_backup_sftp_pass') !== '') {
+                    $key->setPassword(get_pref('rah_backup_sftp_pass'));
+                }
 
-        if ($event === 'rah_backup.deleted') {
-            foreach ($data['files'] as $name => $path) {
-                $sftp->delete($name);
+                if (!file_exists($file) || !is_file($file) || !is_readable($file)) {
+                    throw new Exception('Unable read private RSA key file: '.$file);
+                }
+
+                if ($key->loadKey(file_get_contents($file)) === false) {
+                    throw new Exception('Unable decrypt and load RSA key.');
+                }
+
+                $login = $sftp->login(
+                    get_pref('rah_backup_sftp_user'),
+                    $key
+                );
+            } else {
+                $login = $sftp->login(
+                    get_pref('rah_backup_sftp_user'),
+                    get_pref('rah_backup_sftp_pass')
+                );
             }
-        } else {
-            foreach ($data['files'] as $name => $path) {
-                $sftp->put($name, $path, NET_SFTP_LOCAL_FILE);
+
+            if ($login === false) {
+                throw new Exception('Unable to login to SFTP server.');
             }
+
+		    if (get_pref('rah_backup_sftp_path') && $sftp->chdir(get_pref('rah_backup_sftp_path')) === false) {
+                throw new Exception('Unable change remote cwd: '.get_pref('rah_backup_sftp_path'));
+		    }
+
+            if ($event === 'rah_backup.deleted') {
+                foreach ($data['files'] as $name => $path) {
+                    $sftp->delete($name);
+                }
+            } else {
+                foreach ($data['files'] as $name => $path) {
+                    $sftp->put($name, $path, NET_SFTP_LOCAL_FILE);
+                }
+            }
+        } catch (Exception $e) {
+            throw new Exception('rah_backup_sftp: '.$e->getMessage());
         }
     }
 }
