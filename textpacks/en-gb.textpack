@@ -1,0 +1,8 @@
+#@admin
+rah_backup_sftp_host => Hostname
+rah_backup_sftp_pass => Password
+rah_backup_sftp_path => Remote backup directory path
+rah_backup_sftp_port => Port
+rah_backup_sftp_private_key => Path to RSA private key
+rah_backup_sftp_user => Username
+rah_bckp_sftp => SFTP module for rah_backup
