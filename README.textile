@@ -1,0 +1,17 @@
+h1. SFTP module for rah_backup
+
+"Packagist":https://packagist.org/packages/rah/rah_backup_sftp | "Twitter":http://twitter.com/gocom | "Donate":http://rahforum.biz/donate/rah_backup_sftp
+
+Transfers backups created with "rah_backup":https://github.com/gocom/rah_backup to a offsite location via SSH File Transfer Protocol. This module uses "phpseclib":https://github.com/phpseclib/phpseclib for its wonderful pure-PHP SFTP implementation.
+
+h2. Install
+
+Using "Composer":http://getcomposer.org:
+
+bc. $ composer require rah/rah_backup_sftp:*
+
+h2. Changelog
+
+h3. Version 0.1.0 - upcoming
+
+* Initial release.

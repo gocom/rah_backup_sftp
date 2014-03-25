@@ -1,0 +1,27 @@
+{
+    "name": "rah/rah_backup_sftp",
+    "description": "SFTP module for rah_backup",
+    "keywords": ["textpattern", "plugin", "sftp", "rah_backup"],
+    "homepage": "https://github.com/gocom/rah_backup_sftp",
+    "license": "GPL-2.0",
+    "type": "textpattern-plugin",
+    "authors": [
+        {
+            "name": "Jukka Svahn",
+            "homepage": "http://rahforum.biz",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/gocom/rah_backup_sftp/issues",
+        "source": "https://github.com/gocom/rah_backup_sftp"
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "textpattern/lock": "*",
+        "textpattern/installer": "*",
+        "rah/rah_backup": "*",
+        "rah/rah_autoload": "*",
+        "phpseclib/phpseclib": "0.3.*"
+    }
+}
