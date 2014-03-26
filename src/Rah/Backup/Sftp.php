@@ -74,14 +74,29 @@ class Rah_Backup_Sftp
     /**
      * Syncs backups.
      *
-     * @param string $event Callback event
-     * @param string $step  Callback step
-     * @param array  $data  The files to upload
+     * This callback handler syncs backups between
+     * servers. On creatation it uploads files and
+     * on delete it tries to remove them.
+     *
+     * On error it throws an exception. Failed deletes
+     * are ignored to allow setting up uplaod-only
+     * backup system where already created backups
+     * can not be modified.
+     *
+     * @param  string $event Callback event
+     * @param  string $step  Callback step
+     * @param  array  $data  The files to upload
+     * @throws Exception
      */
 
     public function sync($event, $step, $data)
     {
         try {
+
+            if (!get_pref('rah_backup_sftp_host') || !get_pref('rah_backup_sftp_pass')) {
+                return;
+            }
+
             $sftp = new Net_SFTP(
                 get_pref('rah_backup_sftp_host'),
                 (int) get_pref('rah_backup_sftp_port'),
@@ -129,7 +144,9 @@ class Rah_Backup_Sftp
                 }
             } else {
                 foreach ($data['files'] as $name => $path) {
-                    $sftp->put($name, $path, NET_SFTP_LOCAL_FILE);
+                    if ($sftp->put($name, $path, NET_SFTP_LOCAL_FILE) === false) {
+                        throw new Exception('Uploading '.$name.' failed.');
+                    }
                 }
             }
         } catch (Exception $e) {
