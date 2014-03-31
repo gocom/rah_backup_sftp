@@ -51,6 +51,7 @@ class Rah_Backup_Sftp
 	public function install()
 	{
 		$position = 250;
+        $exists = array();
 
 		foreach (array(
 			'rah_backup_sftp_host' => array('text_input', ''),
@@ -60,12 +61,19 @@ class Rah_Backup_Sftp
             'rah_backup_sftp_pass' => array('text_input', ''),
             'rah_backup_sftp_private_key' => array('text_input', ''),
 		) as $name => $val) {
+            $exists[] = $name;
+
 			if (get_pref($name, false) === false) {
 				set_pref($name, $val[1], 'rah_bckp_sftp', PREF_ADVANCED, $val[0], $position);
 			}
 
 			$position++;
 		}
+
+        safe_delete(
+            'txp_prefs',
+            "event = 'rah_bckp_sftp' and name not in(".implode(',', quote_list($exists)).")"
+        );
 	}
 
 	/**
@@ -74,7 +82,7 @@ class Rah_Backup_Sftp
 
 	public function uninstall()
 	{
-		safe_delete('txp_prefs', "name like 'rah\_backup\_stfp\_%'");
+		safe_delete('txp_prefs', "event = 'rah_bckp_sftp'");
 	}
 
     /**
