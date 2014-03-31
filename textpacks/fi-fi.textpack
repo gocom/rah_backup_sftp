@@ -1,0 +1,9 @@
+#@admin
+#@language fi-fi
+rah_backup_sftp_host => Isäntänimi
+rah_backup_sftp_pass => Salasana
+rah_backup_sftp_path => Etäpalvelimen hakemistopolku
+rah_backup_sftp_port => Portti
+rah_backup_sftp_private_key => Polku henkilökohtaiseen RSA avaimeen
+rah_backup_sftp_user => Käyttäjä
+rah_bckp_sftp => Rah_backup SFTP-moduuli
