@@ -10,6 +10,50 @@ Using "Composer":http://getcomposer.org:
 
 bc. $ composer require rah/rah_backup_sftp:*
 
+h2. Preferences
+
+The plugin adds set of configurable preferences to Textpattern's Preferences panel.
+
+h3. Hostname
+
+The remote SFTP server hostname. This can either be a domain name or an IP address. For example:
+
+bc. example.tld
+
+h3. Port
+
+The remote SFTP server port number. The default SSH port is 22. For example:
+
+bc. 25522
+
+h3. Remote backup directory path
+
+Path to the directory used to store the backups on the remote server. If left empty, it uses the user's default SFTP root directory that normally defaults to the user's home directory. For example:
+
+bc. /backups/uploads
+
+The used directory needs to be writable by the user.
+
+h3. Username
+
+Username used to login to the remote server. For example:
+
+bc. john
+
+h3. Password
+
+The user's login password, or passphrase for the RSA private key if key authentication is used:
+
+bc. mypassword
+
+h3. Path to RSA private key
+
+If set RSA public keys are used for logging in instead of plaintext password. This option takes a path to your RSA private key file. The path is relative to Textpattern installation location (e.g. @textpattern/@).
+
+bc. ../../id_rsa
+
+The above would used @id_rsa@ file placed to the directory located one level above your main @index.php@ file.
+
 h2. Changelog
 
 h3. Version 0.1.0 - upcoming
