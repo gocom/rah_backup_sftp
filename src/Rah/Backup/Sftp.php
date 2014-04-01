@@ -35,11 +35,9 @@ class Rah_Backup_Sftp
 
     public function __construct()
     {
-        add_privs('plugin_prefs.rah_backup_sftp', '1');
         add_privs('prefs.rah_bckp_sftp', '1');
         register_callback(array($this, 'sync'), 'rah_backup.created');
         register_callback(array($this, 'sync'), 'rah_backup.deleted');
-        register_callback(array($this, 'prefs'), 'plugin_prefs.rah_backup_sftp');
         register_callback(array($this, 'install'), 'plugin_lifecycle.rah_backup_sftp', 'installed');
         register_callback(array($this, 'uninstall'), 'plugin_lifecycle.rah_backup_sftp', 'deleted');
     }
