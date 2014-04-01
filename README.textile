@@ -48,11 +48,11 @@ bc. mypassword
 
 h3. Path to RSA private key
 
-If set RSA public keys are used for logging in instead of plaintext password. This option takes a path to your RSA private key file. The path is relative to Textpattern installation location (e.g. @textpattern/@).
+If set, RSA public key is used for logging in instead of plaintext password. This option takes a path to your RSA private key file. The path is relative to Textpattern installation location (e.g. @textpattern/@).
 
 bc. ../../id_rsa
 
-The above would used @id_rsa@ file placed to the directory located one level above your main @index.php@ file.
+The above would use a @id_rsa@ file placed to the directory located one level above your main @index.php@ file.
 
 h2. Changelog
 
